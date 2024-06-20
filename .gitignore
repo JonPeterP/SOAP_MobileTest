@@ -1,3 +1,7 @@
+# Created by https://www.toptal.com/developers/gitignore/api/xamarinstudio,android
+# Edit at https://www.toptal.com/developers/gitignore?templates=xamarinstudio,android
+
+### Android ###
 # Gradle files
 .gradle/
 build/
@@ -31,3 +35,17 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+### Android Patch ###
+gen-external-apklibs
+
+# Replacement of .externalNativeBuild directories introduced
+# with Android Studio 3.5.
+
+### XamarinStudio ###
+bin/
+obj/
+*.userprefs
+.packages
+
+# End of https://www.toptal.com/developers/gitignore/api/xamarinstudio,android
