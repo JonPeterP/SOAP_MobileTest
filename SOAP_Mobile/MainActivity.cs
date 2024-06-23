@@ -9,6 +9,10 @@ using Google.Android.Material.FloatingActionButton;
 using Google.Android.Material.Snackbar;
 using Android.Widget;
 using Xamarin.Essentials;
+//using System.Drawing;
+using System.Net;
+using Android.Graphics;
+
 
 namespace SOAP_Mobile
 {
@@ -18,6 +22,7 @@ namespace SOAP_Mobile
         TextView text1;
         Button btnSubmit;
         EditText edit1;
+        ImageView imgView1;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -29,6 +34,7 @@ namespace SOAP_Mobile
 
             text1 = FindViewById<TextView>(Resource.Id.textView1);
             edit1 = FindViewById<EditText>(Resource.Id.editText1);
+            imgView1 = FindViewById<ImageView>(Resource.Id.imageView1);
 
         }
 
@@ -53,10 +59,55 @@ namespace SOAP_Mobile
         {
             View view = (View)sender;
             //text1.setText("Button Clicked");
-            
-            com.daehosting.webservices.TemperatureConversions tempC = new com.daehosting.webservices.TemperatureConversions();
-            text1.Text = tempC.CelsiusToFahrenheit(decimal.Parse(edit1.Text)).ToString();
 
+            //com.daehosting.webservices.TemperatureConversions tempC = new com.daehosting.webservices.TemperatureConversions();
+            //text1.Text = tempC.CelsiusToFahrenheit(decimal.Parse(edit1.Text)).ToString();
+
+
+            // Create an instance of the service client
+            var client = new CountryInfoService.CountryInfoService();
+
+            // Specify the country ISO code
+            string countryISOCode = edit1.Text.ToString() ?? "PH"; // Example: US for the United States
+
+            try
+            {
+                //string flagUrl = client.CountryFlag(countryISOCode);
+
+                string flagUrl = client.CountryFlag(countryISOCode);
+                text1.Text = flagUrl;
+
+
+                var imageBitmap = GetImageBitmapFromUrl(flagUrl);
+                imgView1.SetImageBitmap(imageBitmap);
+
+                // Display the result
+                // Console.WriteLine($"The flag URL for {countryISOCode} is: {flagUrl}");
+            }
+            
+            catch (Exception ex)
+            {
+                text1.Text = ($"An unexpected error occurred: {ex.Message}");
+            }
+
+            //com.daehosting.webservices.TemperatureConversions tempC = new com.daehosting.webservices.TemperatureConversions();
+
+        }
+
+        private Bitmap GetImageBitmapFromUrl(string url)
+        {
+            Bitmap imageBitmap = null;
+
+            using (var webClient = new WebClient())
+            {
+                var imageBytes = webClient.DownloadData(url);
+                if (imageBytes != null && imageBytes.Length > 0)
+                {
+                    imageBitmap = BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
+                }
+            }
+
+            return imageBitmap;
         }
 
         private void FabOnClick(object sender, EventArgs eventArgs)
