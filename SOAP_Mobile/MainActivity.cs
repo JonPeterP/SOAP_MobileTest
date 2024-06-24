@@ -12,6 +12,8 @@ using Xamarin.Essentials;
 //using System.Drawing;
 using System.Net;
 using Android.Graphics;
+using Java.Security.Interfaces;
+using Android.Content;
 
 
 namespace SOAP_Mobile
@@ -23,8 +25,17 @@ namespace SOAP_Mobile
         Button btnSubmit;
         EditText edit1;
         ImageView imgView1;
+        int score;
+        private static Random _random = new Random();
+
+        private string currentQuestion;
+        CountryCodes cc;
+        string[] countryCodes;
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            score = 0;
+            cc = new CountryCodes();
+            countryCodes = cc.GetCountryCodes();
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
@@ -35,6 +46,22 @@ namespace SOAP_Mobile
             text1 = FindViewById<TextView>(Resource.Id.textView1);
             edit1 = FindViewById<EditText>(Resource.Id.editText1);
             imgView1 = FindViewById<ImageView>(Resource.Id.imageView1);
+            text1.Text = "Score: " + score.ToString();
+            GameRound();
+        }
+
+        private void GameRound()
+        {
+
+            int randomNumber = GenerateRandomNumber(0, countryCodes.Length);
+            var client = new CountryInfoService.CountryInfoService();
+
+            string flagUrl = client.CountryFlag(countryCodes[randomNumber]);
+
+            var imageBitmap = GetImageBitmapFromUrl(flagUrl);
+            imgView1.SetImageBitmap(imageBitmap);
+            currentQuestion = countryCodes[randomNumber];
+
 
         }
 
@@ -58,37 +85,19 @@ namespace SOAP_Mobile
         private void BtnSubmitOnClick(object sender, EventArgs eventArgs)
         {
             View view = (View)sender;
-            //text1.setText("Button Clicked");
-
-            //com.daehosting.webservices.TemperatureConversions tempC = new com.daehosting.webservices.TemperatureConversions();
-            //text1.Text = tempC.CelsiusToFahrenheit(decimal.Parse(edit1.Text)).ToString();
-
-
-            // Create an instance of the service client
-            var client = new CountryInfoService.CountryInfoService();
-
-            // Specify the country ISO code
-            string countryISOCode = edit1.Text.ToString() ?? "PH"; // Example: US for the United States
-
-            try
-            {
-                //string flagUrl = client.CountryFlag(countryISOCode);
-
-                string flagUrl = client.CountryFlag(countryISOCode);
-                text1.Text = flagUrl;
-
-
-                var imageBitmap = GetImageBitmapFromUrl(flagUrl);
-                imgView1.SetImageBitmap(imageBitmap);
-
-                // Display the result
-                // Console.WriteLine($"The flag URL for {countryISOCode} is: {flagUrl}");
-            }
             
-            catch (Exception ex)
+
+            if (cc.CheckAnswer(edit1.Text.ToUpper(), currentQuestion))
             {
-                text1.Text = ($"An unexpected error occurred: {ex.Message}");
+                score++;
+                DisplayToast("Correct");
             }
+            else
+            {
+                DisplayToast("Wrong");
+            }
+            text1.Text = "Score: " + score.ToString();
+            GameRound();
 
             //com.daehosting.webservices.TemperatureConversions tempC = new com.daehosting.webservices.TemperatureConversions();
 
@@ -110,11 +119,27 @@ namespace SOAP_Mobile
             return imageBitmap;
         }
 
-        private void FabOnClick(object sender, EventArgs eventArgs)
+        private void DisplayToast(string msg)
         {
-            View view = (View) sender;
-            Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
-                .SetAction("Action", (View.IOnClickListener)null).Show();
+            Context context = Application.Context;
+            //string text = "Hello toast!";
+            ToastLength duration = ToastLength.Short;
+
+            var toast = Toast.MakeText(context, msg, duration);
+            toast.Show();
+        }
+
+
+        // Method to generate a random number within a specified range
+        public static int GenerateRandomNumber(int min, int max)
+        {
+            // Ensure that min is less than or equal to max
+            if (min > max)
+            {
+                throw new ArgumentException("min should be less than or equal to max");
+            }
+
+            return _random.Next(min, max + 1); // max + 1 because Next upper bound is exclusive
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
