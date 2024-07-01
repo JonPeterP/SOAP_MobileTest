@@ -16,6 +16,7 @@ using Java.Security.Interfaces;
 using Android.Content;
 using Android.Bluetooth;
 using System.Collections.Generic;
+using System.Linq;
 
 
 namespace SOAP_Mobile
@@ -81,23 +82,26 @@ namespace SOAP_Mobile
             int randomNumber = GenerateRandomNumber(0, countryCodes.Length);
             var client = new CountryInfoService.CountryInfoService();
 
-            //  string countryName = 
-
             string flagUrl = client.CountryFlag(countryCodes[randomNumber]);
 
             var imageBitmap = GetImageBitmapFromUrl(flagUrl);
             imgView1.SetImageBitmap(imageBitmap);
             currentQuestion = countryCodes[randomNumber];
+            var randomNumber2 = 0;
 
-            randomNumber = GenerateRandomNumber(0, countryCodes.Length);
+            //var test = client.ListOfCountryNamesByCode();
+            ////Console.WriteLine(String.Join(" ", test.ToArray()));
 
             choices[0] = client.CountryName(currentQuestion);
-            //cc.GetKeyFromValue(cc.countryCodesByName, currentQuestion);
-            choices[1] = client.CountryName(countryCodes[randomNumber]);
-            //cc.GetKeyFromValue(cc.countryCodesByName, countryCodes[randomNumber]);
-            randomNumber = GenerateRandomNumber(0, countryCodes.Length);
-            choices[2] = client.CountryName(countryCodes[randomNumber]);
-            //cc.GetKeyFromValue(cc.countryCodesByName, countryCodes[randomNumber]);
+            do
+            {
+                randomNumber = GenerateRandomNumber(0, countryCodes.Length);
+                choices[1] = client.CountryName(countryCodes[randomNumber]);
+                randomNumber2 = GenerateRandomNumber(0, countryCodes.Length);
+                choices[2] = client.CountryName(countryCodes[randomNumber2]);
+
+            } while (countryCodes[randomNumber] == currentQuestion || countryCodes[randomNumber2] == currentQuestion || countryCodes[randomNumber2] == countryCodes[randomNumber]);
+          
 
             ArrayShuffler.Shuffle(choices);
 
@@ -129,12 +133,8 @@ namespace SOAP_Mobile
         private void BtnSubmitOnClick(object sender, EventArgs eventArgs)
         {
             View view = (View)sender;
-
             var obj = (Button)sender;
 
-
-            //  if (cc.CheckAnswer(edit1.Text.ToUpper(), currentQuestion))
-            Console.WriteLine(obj.Text.ToUpper() + " " +  currentQuestion);
             if (cc.CheckAnswer(obj.Text.ToUpper(), currentQuestion))
             {
                 score++;
@@ -145,10 +145,8 @@ namespace SOAP_Mobile
                 DisplayToast("Wrong");
             }
 
-
             text1.Text = "Score: " + score.ToString();
             GameRound();
-
         }
 
         private Bitmap GetImageBitmapFromUrl(string url)
@@ -184,9 +182,7 @@ namespace SOAP_Mobile
             toast.Show();
         }
 
-
-        // Method to generate a random number within a specified range
-        public static int GenerateRandomNumber(int min, int max)
+        private static int GenerateRandomNumber(int min, int max)
         {
             // Ensure that min is less than or equal to max
             if (min > max)

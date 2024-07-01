@@ -18,16 +18,6 @@
         android:layout_marginLeft="30.5dp"
         android:layout_marginRight="33.0dp" />
 
-<!--
-    <EditText
-        android:inputType="text"
-        android:layout_width="194.0dp"
-        android:layout_height="71.5dp"
-        android:id="@+id/editText1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="76.0dp"
-        android:layout_marginBottom="297.0dp" />
--->
     <Button
         android:text="Submit"
         android:layout_width="wrap_content"
@@ -55,11 +45,11 @@
 
     <ImageView
         android:src="@android:drawable/ic_menu_gallery"
-        android:layout_width="165.0dp"
-        android:layout_height="102.0dp"
+        android:layout_width="277.0dp"
+        android:layout_height="158.0dp"
         android:layout_marginTop="150.5dp"
         android:id="@+id/imageView1"
-        android:layout_marginLeft="92.0dp" 
+        android:layout_marginLeft="92.0dp"
         android:layout_centerHorizontal="true"
         />
     <Button
