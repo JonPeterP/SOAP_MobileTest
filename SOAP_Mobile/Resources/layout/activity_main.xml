@@ -62,6 +62,15 @@
         android:layout_marginLeft="92.0dp" 
         android:layout_centerHorizontal="true"
         />
-    
+    <Button
+        android:text="Exit"
+        android:layout_width="wrap_content"
+        android:layout_height="47.0dp"
+        android:id="@+id/exitButton"
+        android:layout_marginTop="20dp" 
+        android:layout_marginLeft="270dp" />
+            
 
 </RelativeLayout>
+
+

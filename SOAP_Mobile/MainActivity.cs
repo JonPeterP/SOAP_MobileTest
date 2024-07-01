@@ -61,6 +61,15 @@ namespace SOAP_Mobile
             imgView1 = FindViewById<ImageView>(Resource.Id.imageView1);
             text1.Text = "Score: " + score.ToString();
 
+            // Find the Exit button
+            Button exitButton = FindViewById<Button>(Resource.Id.exitButton);
+
+            // Set up the click event handler
+            exitButton.Click += (sender, e) =>
+            {
+                // Exit the app
+                Finish();
+            };
 
             GameRound();
         }
@@ -72,6 +81,8 @@ namespace SOAP_Mobile
             int randomNumber = GenerateRandomNumber(0, countryCodes.Length);
             var client = new CountryInfoService.CountryInfoService();
 
+            //  string countryName = 
+
             string flagUrl = client.CountryFlag(countryCodes[randomNumber]);
 
             var imageBitmap = GetImageBitmapFromUrl(flagUrl);
@@ -80,10 +91,13 @@ namespace SOAP_Mobile
 
             randomNumber = GenerateRandomNumber(0, countryCodes.Length);
 
-            choices[0] = cc.GetKeyFromValue(cc.countryCodesByName, currentQuestion);
-            choices[1] = cc.GetKeyFromValue(cc.countryCodesByName, countryCodes[randomNumber]);
+            choices[0] = client.CountryName(currentQuestion);
+            //cc.GetKeyFromValue(cc.countryCodesByName, currentQuestion);
+            choices[1] = client.CountryName(countryCodes[randomNumber]);
+            //cc.GetKeyFromValue(cc.countryCodesByName, countryCodes[randomNumber]);
             randomNumber = GenerateRandomNumber(0, countryCodes.Length);
-            choices[2] = cc.GetKeyFromValue(cc.countryCodesByName, countryCodes[randomNumber]);
+            choices[2] = client.CountryName(countryCodes[randomNumber]);
+            //cc.GetKeyFromValue(cc.countryCodesByName, countryCodes[randomNumber]);
 
             ArrayShuffler.Shuffle(choices);
 
@@ -120,6 +134,7 @@ namespace SOAP_Mobile
 
 
             //  if (cc.CheckAnswer(edit1.Text.ToUpper(), currentQuestion))
+            Console.WriteLine(obj.Text.ToUpper() + " " +  currentQuestion);
             if (cc.CheckAnswer(obj.Text.ToUpper(), currentQuestion))
             {
                 score++;
@@ -139,10 +154,17 @@ namespace SOAP_Mobile
         private Bitmap GetImageBitmapFromUrl(string url)
         {
             Bitmap imageBitmap = null;
-
+            byte[] imageBytes = null;
             using (var webClient = new WebClient())
             {
-                var imageBytes = webClient.DownloadData(url);
+                try
+                {
+                    imageBytes = webClient.DownloadData(url);
+                }
+                catch
+                {
+                    GameRound();
+                }
                 if (imageBytes != null && imageBytes.Length > 0)
                 {
                     imageBitmap = BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
@@ -181,5 +203,7 @@ namespace SOAP_Mobile
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
+
     }
 }
