@@ -50,3 +50,4 @@ obj/
 
 # End of https://www.toptal.com/developers/gitignore/api/xamarinstudio,android
 .vs/SOAP_Mobile/v17/.suo
+.vs
