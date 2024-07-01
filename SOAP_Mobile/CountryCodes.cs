@@ -14,7 +14,7 @@ namespace SOAP_Mobile
     internal class CountryCodes
     {
         string[] countryCodes;
-        Dictionary<string, string> countryCodesByName;
+        public Dictionary<string, string> countryCodesByName, countryNamesByCode;
         public CountryCodes()
         {
             countryCodes = new string[]{
@@ -46,57 +46,70 @@ namespace SOAP_Mobile
                         "ZA", "ZM", "ZW"
                     };
 
+
             countryCodesByName = new Dictionary<string, string>()
             {
-               { "AFGHANISTAN", "AF" }, { "ALBANIA", "AL" }, { "ALGERIA", "DZ" }, { "ANDORRA", "AD" },
-            { "ANGOLA", "AO" }, { "ANTIGUA AND BARBUDA", "AG" }, { "ARGENTINA", "AR" }, { "ARMENIA", "AM" },
-            { "AUSTRALIA", "AU" }, { "AUSTRIA", "AT" }, { "AZERBAIJAN", "AZ" }, { "BAHAMAS", "BS" },
-            { "BAHRAIN", "BH" }, { "BANGLADESH", "BD" }, { "BARBADOS", "BB" }, { "BELARUS", "BY" },
-            { "BELGIUM", "BE" }, { "BELIZE", "BZ" }, { "BENIN", "BJ" }, { "BHUTAN", "BT" },
-            { "BOLIVIA", "BO" }, { "BOSNIA AND HERZEGOVINA", "BA" }, { "BOTSWANA", "BW" }, { "BRAZIL", "BR" },
-            { "BRUNEI DARUSSALAM", "BN" }, { "BULGARIA", "BG" }, { "BURKINA FASO", "BF" }, { "BURUNDI", "BI" },
-            { "CABO VERDE", "CV" }, { "CAMBODIA", "KH" }, { "CAMEROON", "CM" }, { "CANADA", "CA" },
-            { "CENTRAL AFRICAN REPUBLIC", "CF" }, { "CHAD", "TD" }, { "CHILE", "CL" }, { "CHINA", "CN" },
-            { "COLOMBIA", "CO" }, { "COMOROS", "KM" }, { "CONGO", "CG" }, { "CONGO, DEMOCRATIC REPUBLIC OF THE", "CD" },
-            { "COSTA RICA", "CR" }, { "CROATIA", "HR" }, { "CUBA", "CU" }, { "CYPRUS", "CY" },
-            { "CZECH REPUBLIC", "CZ" }, { "DENMARK", "DK" }, { "DJIBOUTI", "DJ" }, { "DOMINICA", "DM" },
-            { "DOMINICAN REPUBLIC", "DO" }, { "ECUADOR", "EC" }, { "EGYPT", "EG" }, { "EL SALVADOR", "SV" },
-            { "EQUATORIAL GUINEA", "GQ" }, { "ERITREA", "ER" }, { "ESTONIA", "EE" }, { "ESWATINI", "SZ" },
-            { "ETHIOPIA", "ET" }, { "FIJI", "FJ" }, { "FINLAND", "FI" }, { "FRANCE", "FR" },
-            { "GABON", "GA" }, { "GAMBIA", "GM" }, { "GEORGIA", "GE" }, { "GERMANY", "DE" },
-            { "GHANA", "GH" }, { "GREECE", "GR" }, { "GRENADA", "GD" }, { "GUATEMALA", "GT" },
-            { "GUINEA", "GN" }, { "GUINEA-BISSAU", "GW" }, { "GUYANA", "GY" }, { "HAITI", "HT" },
-            { "HONDURAS", "HN" }, { "HUNGARY", "HU" }, { "ICELAND", "IS" }, { "INDIA", "IN" },
-            { "INDONESIA", "ID" }, { "IRAN", "IR" }, { "IRAQ", "IQ" }, { "IRELAND", "IE" },
-            { "ISRAEL", "IL" }, { "ITALY", "IT" }, { "JAMAICA", "JM" }, { "JAPAN", "JP" },
-            { "JORDAN", "JO" }, { "KAZAKHSTAN", "KZ" }, { "KENYA", "KE" }, { "KIRIBATI", "KI" },
-            { "KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF", "KP" }, { "KOREA, REPUBLIC OF", "KR" }, { "KUWAIT", "KW" }, { "KYRGYZSTAN", "KG" },
-            { "LAO PEOPLE'S DEMOCRATIC REPUBLIC", "LA" }, { "LATVIA", "LV" }, { "LEBANON", "LB" }, { "LESOTHO", "LS" },
-            { "LIBERIA", "LR" }, { "LIBYA", "LY" }, { "LIECHTENSTEIN", "LI" }, { "LITHUANIA", "LT" },
-            { "LUXEMBOURG", "LU" }, { "MADAGASCAR", "MG" }, { "MALAWI", "MW" }, { "MALAYSIA", "MY" },
-            { "MALDIVES", "MV" }, { "MALI", "ML" }, { "MALTA", "MT" }, { "MARSHALL ISLANDS", "MH" },
-            { "MAURITANIA", "MR" }, { "MAURITIUS", "MU" }, { "MEXICO", "MX" }, { "MICRONESIA", "FM" },
-            { "MOLDOVA", "MD" }, { "MONACO", "MC" }, { "MONGOLIA", "MN" }, { "MONTENEGRO", "ME" },
-            { "MOROCCO", "MA" }, { "MOZAMBIQUE", "MZ" }, { "MYANMAR", "MM" }, { "NAMIBIA", "NA" },
-            { "NAURU", "NR" }, { "NEPAL", "NP" }, { "NETHERLANDS", "NL" }, { "NEW ZEALAND", "NZ" },
-            { "NICARAGUA", "NI" }, { "NIGER", "NE" }, { "NIGERIA", "NG" }, { "NORTH MACEDONIA", "MK" },
-            { "NORWAY", "NO" }, { "OMAN", "OM" }, { "PAKISTAN", "PK" }, { "PALAU", "PW" },
-            { "PALESTINE, STATE OF", "PS" }, { "PANAMA", "PA" }, { "PAPUA NEW GUINEA", "PG" }, { "PARAGUAY", "PY" },
-            { "PERU", "PE" }, { "PHILIPPINES", "PH" }, { "POLAND", "PL" }, { "PORTUGAL", "PT" },
-            { "QATAR", "QA" }, { "ROMANIA", "RO" }, { "RUSSIAN FEDERATION", "RU" }, { "RWANDA", "RW" },
-            { "SAINT KITTS AND NEVIS", "KN" }, { "SAINT LUCIA", "LC" }, { "SAINT VINCENT AND THE GRENADINES", "VC" }, { "SAMOA", "WS" },
-            { "SAN MARINO", "SM" }, { "SAO TOME AND PRINCIPE", "ST" }, { "SAUDI ARABIA", "SA" }, { "SENEGAL", "SN" },
-            { "SERBIA", "RS" }, { "SEYCHELLES", "SC" }, { "SIERRA LEONE", "SL" }, { "SINGAPORE", "SG" },
-            { "SLOVAKIA", "SK" }, { "SLOVENIA", "SI" }, { "SOLOMON ISLANDS", "SB" }, { "SOMALIA", "SO" },
-            { "SOUTH AFRICA", "ZA" }, { "SOUTH SUDAN", "SS" }, { "SPAIN", "ES" }, { "SRI LANKA", "LK" },
-            { "SUDAN", "SD" }, { "SURINAME", "SR" }, { "SWEDEN", "SE" }, { "SWITZERLAND", "CH" },
-            { "SYRIAN ARAB REPUBLIC", "SY" }, { "TAJIKISTAN", "TJ" }, { "TANZANIA", "TZ" }, { "THAILAND", "TH" },
-            { "TIMOR-LESTE", "TL" }, { "TOGO", "TG" }, { "TONGA", "TO" }, { "TRINIDAD AND TOBAGO", "TT" },
-            { "TUNISIA", "TN" }, { "TURKEY", "TR" },  { "TURKMENISTAN", "TM" }, { "TUVALU", "TV" },
-            { "UGANDA", "UG" }, { "UKRAINE", "UA" }, { "UNITED ARAB EMIRATES", "AE" }, { "UNITED KINGDOM", "GB" },
-            { "UNITED STATES OF AMERICA", "US" }, { "URUGUAY", "UY" }, { "UZBEKISTAN", "UZ" }, { "VANUATU", "VU" },
-            { "VENEZUELA", "VE" }, { "VIET NAM", "VN" }, { "YEMEN", "YE" }, { "ZAMBIA", "ZM" },
-            { "ZIMBABWE", "ZW" }
+                  { "ANDORRA", "AD" }, { "UNITED ARAB EMIRATES", "AE" }, { "AFGHANISTAN", "AF" },
+    { "ANTIGUA AND BARBUDA", "AG" }, { "ANGUILLA", "AI" }, { "ALBANIA", "AL" },
+    { "ARMENIA", "AM" }, { "ANGOLA", "AO" }, { "ANTARCTICA", "AQ" }, { "ARGENTINA", "AR" },
+    { "AMERICAN SAMOA", "AS" }, { "AUSTRIA", "AT" }, { "AUSTRALIA", "AU" }, { "ARUBA", "AW" },
+    { "ÅLAND ISLANDS", "AX" }, { "AZERBAIJAN", "AZ" }, { "BOSNIA AND HERZEGOVINA", "BA" },
+    { "BARBADOS", "BB" }, { "BANGLADESH", "BD" }, { "BELGIUM", "BE" }, { "BURKINA FASO", "BF" },
+    { "BULGARIA", "BG" }, { "BAHRAIN", "BH" }, { "BURUNDI", "BI" }, { "BENIN", "BJ" },
+    { "SAINT BARTHÉLEMY", "BL" }, { "BERMUDA", "BM" }, { "BRUNEI DARUSSALAM", "BN" },
+    { "BOLIVIA", "BO" }, { "BONAIRE, SINT EUSTATIUS, AND SABA", "BQ" }, { "BRAZIL", "BR" },
+    { "BAHAMAS", "BS" }, { "BHUTAN", "BT" }, { "BOUVET ISLAND", "BV" }, { "BOTSWANA", "BW" },
+    { "BELARUS", "BY" }, { "BELIZE", "BZ" }, { "CANADA", "CA" }, { "COCOS (KEELING) ISLANDS", "CC" },
+    { "CONGO, DEMOCRATIC REPUBLIC OF THE", "CD" }, { "CENTRAL AFRICAN REPUBLIC", "CF" }, { "CONGO", "CG" },
+    { "SWITZERLAND", "CH" }, { "IVORY COAST", "CI" }, { "COOK ISLANDS", "CK" }, { "CHILE", "CL" },
+    { "CAMEROON", "CM" }, { "CHINA", "CN" }, { "COLOMBIA", "CO" }, { "COSTA RICA", "CR" },
+    { "CUBA", "CU" }, { "CABO VERDE", "CV" }, { "CURACAO", "CW" }, { "CHRISTMAS ISLAND", "CX" },
+    { "CYPRUS", "CY" }, { "CZECH REPUBLIC", "CZ" }, { "DENMARK", "DK" }, { "DJIBOUTI", "DJ" },
+    { "DOMINICA", "DM" }, { "DOMINICAN REPUBLIC", "DO" }, { "ECUADOR", "EC" }, { "ESTONIA", "EE" },
+    { "EGYPT", "EG" }, { "WESTERN SAHARA", "EH" }, { "ERITREA", "ER" }, { "SPAIN", "ES" },
+    { "ETHIOPIA", "ET" }, { "FINLAND", "FI" }, { "FIJI", "FJ" }, { "FALKLAND ISLANDS", "FK" },
+    { "MICRONESIA", "FM" }, { "FAROE ISLANDS", "FO" }, { "FRANCE", "FR" }, { "GABON", "GA" },
+    { "UNITED KINGDOM", "GB" }, { "GRENADA", "GD" }, { "GEORGIA", "GE" }, { "FRENCH GUIANA", "GF" },
+    { "GUERNSEY", "GG" }, { "GHANA", "GH" }, { "GIBRALTAR", "GI" }, { "GREENLAND", "GL" },
+    { "GAMBIA", "GM" }, { "GUINEA", "GN" }, { "GUADELOUPE", "GP" }, { "EQUATORIAL GUINEA", "GQ" },
+    { "GREECE", "GR" }, { "SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS", "GS" }, { "GUATEMALA", "GT" },
+    { "GUAM", "GU" }, { "GUINEA-BISSAU", "GW" }, { "GUYANA", "GY" }, { "HONG KONG", "HK" },
+    { "HEARD ISLAND AND MCDONALD ISLANDS", "HM" }, { "HONDURAS", "HN" }, { "CROATIA", "HR" },
+    { "HAITI", "HT" }, { "HUNGARY", "HU" }, { "INDONESIA", "ID" }, { "IRELAND", "IE" },
+    { "ISRAEL", "IL" }, { "ISLE OF MAN", "IM" }, { "INDIA", "IN" }, { "BRITISH INDIAN OCEAN TERRITORY", "IO" },
+    { "IRAQ", "IQ" }, { "IRAN", "IR" }, { "ICELAND", "IS" }, { "ITALY", "IT" }, { "JERSEY", "JE" },
+    { "JAMAICA", "JM" }, { "JORDAN", "JO" }, { "JAPAN", "JP" }, { "KENYA", "KE" }, { "KYRGYZSTAN", "KG" },
+    { "CAMBODIA", "KH" }, { "KIRIBATI", "KI" }, { "COMOROS", "KM" }, { "SAINT KITTS AND NEVIS", "KN" },
+    { "KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF", "KP" }, { "KOREA, REPUBLIC OF", "KR" }, { "KUWAIT", "KW" },
+    { "CAYMAN ISLANDS", "KY" }, { "KAZAKHSTAN", "KZ" }, { "LAO PEOPLE'S DEMOCRATIC REPUBLIC", "LA" },
+    { "LEBANON", "LB" }, { "SAINT LUCIA", "LC" }, { "LIECHTENSTEIN", "LI" }, { "SRI LANKA", "LK" },
+    { "LIBERIA", "LR" }, { "LESOTHO", "LS" }, { "LITHUANIA", "LT" }, { "LUXEMBOURG", "LU" },
+    { "LATVIA", "LV" }, { "LIBYA", "LY" }, { "MOROCCO", "MA" }, { "MONACO", "MC" }, { "MOLDOVA", "MD" },
+    { "MONTENEGRO", "ME" }, { "SAINT MARTIN", "MF" }, { "MADAGASCAR", "MG" }, { "MARSHALL ISLANDS", "MH" },
+    { "MAURITANIA", "MR" }, { "MAURITIUS", "MU" }, { "MEXICO", "MX" }, { "MALAYSIA", "MY" },
+    { "MALDIVES", "MV" }, { "MALAWI", "MW" }, { "MALI", "ML" }, { "MALTA", "MT" },
+    { "MONGOLIA", "MN" }, { "MOZAMBIQUE", "MZ" }, { "MYANMAR", "MM" }, { "NAMIBIA", "NA" },
+    { "NEW CALEDONIA", "NC" }, { "NIGER", "NE" }, { "NORFOLK ISLAND", "NF" }, { "NIGERIA", "NG" },
+    { "NICARAGUA", "NI" }, { "NETHERLANDS", "NL" }, { "NORWAY", "NO" }, { "NEPAL", "NP" },
+    { "NAURU", "NR" }, { "NEW ZEALAND", "NZ" }, { "OMAN", "OM" }, { "PANAMA", "PA" },
+    { "PERU", "PE" }, { "FRENCH POLYNESIA", "PF" }, { "PAPUA NEW GUINEA", "PG" }, { "PHILIPPINES", "PH" },
+    { "PAKISTAN", "PK" }, { "POLAND", "PL" }, { "SAINT PIERRE AND MIQUELON", "PM" }, { "PITCAIRN", "PN" },
+    { "PUERTO RICO", "PR" }, { "PORTUGAL", "PT" }, { "PALAU", "PW" }, { "PARAGUAY", "PY" },
+    { "QATAR", "QA" }, { "REUNION", "RE" }, { "ROMANIA", "RO" }, { "SERBIA", "RS" }, { "RUSSIAN FEDERATION", "RU" },
+    { "RWANDA", "RW" }, { "SAUDI ARABIA", "SA" }, { "SOLOMON ISLANDS", "SB" }, { "SEYCHELLES", "SC" },
+    { "SUDAN", "SD" }, { "SWEDEN", "SE" }, { "SINGAPORE", "SG" }, { "SAINT HELENA", "SH" },
+    { "SLOVENIA", "SI" }, { "SVALBARD AND JAN MAYEN", "SJ" }, { "SLOVAKIA", "SK" }, { "SIERRA LEONE", "SL" },
+    { "SAN MARINO", "SM" }, { "SENEGAL", "SN" }, { "SOMALIA", "SO" }, { "SURINAME", "SR" },
+    { "SOUTH SUDAN", "SS" }, { "SAO TOME AND PRINCIPE", "ST" }, { "EL SALVADOR", "SV" },
+    { "SINT MAARTEN", "SX" }, { "SYRIAN ARAB REPUBLIC", "SY" }, { "TAJIKISTAN", "TJ" },
+    { "TOKELAU", "TK" }, { "TIMOR-LESTE", "TL" }, { "TURKMENISTAN", "TM" }, { "TUNISIA", "TN" },
+    { "TURKEY", "TR" }, { "TRINIDAD AND TOBAGO", "TT" }, { "TUVALU", "TV" }, { "TAIWAN", "TW" },
+    { "TANZANIA", "TZ" }, { "UGANDA", "UG" }, { "UNITED STATES OF AMERICA", "US" },
+    { "URUGUAY", "UY" }, { "UZBEKISTAN", "UZ" }, { "VATICAN CITY STATE", "VA" },
+    { "SAINT VINCENT AND THE GRENADINES", "VC" }, { "VENEZUELA", "VE" }, { "VIRGIN ISLANDS, BRITISH", "VG" },
+    { "VIRGIN ISLANDS, U.S.", "VI" }, { "VIET NAM", "VN" }, { "VANUATU", "VU" },
+    { "WALLIS AND FUTUNA", "WF" }, { "SAMOA", "WS" }, { "YEMEN", "YE" }, { "MAYOTTE", "YT" },
+    { "SOUTH AFRICA", "ZA" }, { "ZAMBIA", "ZM" }, { "ZIMBABWE", "ZW" }
             };
         }
 
@@ -109,9 +122,22 @@ namespace SOAP_Mobile
             return false;
         }
 
+
         public string[] GetCountryCodes()
         {
             return countryCodes;
+        }
+
+        public string GetKeyFromValue(Dictionary<string, string> dictionary, string value)
+        {
+            foreach (var kvp in dictionary)
+            {
+                if (kvp.Value == value)
+                {
+                    return kvp.Key;
+                }
+            }
+            return "no key"; // Return null if the value is not found
         }
     }
 }

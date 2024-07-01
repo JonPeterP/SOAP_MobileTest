@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main">
-
+      
     <TextView
         android:text="Score: "
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -18,29 +18,50 @@
         android:layout_marginLeft="30.5dp"
         android:layout_marginRight="33.0dp" />
 
+<!--
     <EditText
         android:inputType="text"
-        android:layout_width="match_parent"
+        android:layout_width="194.0dp"
         android:layout_height="71.5dp"
         android:id="@+id/editText1"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="76.0dp"
         android:layout_marginBottom="297.0dp" />
+-->
     <Button
         android:text="Submit"
         android:layout_width="wrap_content"
         android:layout_height="47.0dp"
         android:id="@+id/button1"
-        android:layout_marginLeft="28.5dp"
-        android:layout_marginTop="179.5dp" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/imageView1"
+        android:layout_marginTop="5dp" />
+    <Button
+        android:text="Submit"
+        android:layout_width="wrap_content"
+        android:layout_height="47.0dp"
+        android:id="@+id/button2"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/button1"
+        android:layout_marginTop="20dp" />
+    <Button
+       android:text="Submit"
+       android:layout_width="wrap_content"
+       android:layout_height="47.0dp"
+       android:id="@+id/button3"
+       android:layout_centerHorizontal="true"
+       android:layout_below="@id/button2"
+       android:layout_marginTop="20dp" />
 
     <ImageView
         android:src="@android:drawable/ic_menu_gallery"
         android:layout_width="165.0dp"
         android:layout_height="102.0dp"
-        android:layout_marginTop="250.5dp"
+        android:layout_marginTop="150.5dp"
         android:id="@+id/imageView1"
-        android:layout_marginLeft="92.0dp" />
-
+        android:layout_marginLeft="92.0dp" 
+        android:layout_centerHorizontal="true"
+        />
     
 
 </RelativeLayout>

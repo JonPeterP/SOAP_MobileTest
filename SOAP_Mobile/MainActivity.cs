@@ -14,6 +14,8 @@ using System.Net;
 using Android.Graphics;
 using Java.Security.Interfaces;
 using Android.Content;
+using Android.Bluetooth;
+using System.Collections.Generic;
 
 
 namespace SOAP_Mobile
@@ -22,7 +24,7 @@ namespace SOAP_Mobile
     public class MainActivity : AppCompatActivity
     {
         TextView text1;
-        Button btnSubmit;
+        Button btnSubmit, btnSubmit2, btnSubmit3;
         EditText edit1;
         ImageView imgView1;
         int score;
@@ -31,8 +33,11 @@ namespace SOAP_Mobile
         private string currentQuestion;
         CountryCodes cc;
         string[] countryCodes;
+        Button[] btnChoices;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            btnChoices = new Button[3];
             score = 0;
             cc = new CountryCodes();
             countryCodes = cc.GetCountryCodes();
@@ -41,18 +46,29 @@ namespace SOAP_Mobile
             SetContentView(Resource.Layout.activity_main);
 
             btnSubmit = FindViewById<Button>(Resource.Id.button1);
+            btnSubmit2 = FindViewById<Button>(Resource.Id.button2);
+            btnSubmit3 = FindViewById<Button>(Resource.Id.button3);
+
             btnSubmit.Click += BtnSubmitOnClick;
+            btnSubmit2.Click += BtnSubmitOnClick;
+            btnSubmit3.Click += BtnSubmitOnClick;
+            btnChoices[0] = btnSubmit;
+            btnChoices[1] = btnSubmit2;
+            btnChoices[2] = btnSubmit3;
 
             text1 = FindViewById<TextView>(Resource.Id.textView1);
             edit1 = FindViewById<EditText>(Resource.Id.editText1);
             imgView1 = FindViewById<ImageView>(Resource.Id.imageView1);
             text1.Text = "Score: " + score.ToString();
+
+
             GameRound();
         }
 
         private void GameRound()
         {
 
+            string[] choices = new string[3];
             int randomNumber = GenerateRandomNumber(0, countryCodes.Length);
             var client = new CountryInfoService.CountryInfoService();
 
@@ -62,7 +78,21 @@ namespace SOAP_Mobile
             imgView1.SetImageBitmap(imageBitmap);
             currentQuestion = countryCodes[randomNumber];
 
+            randomNumber = GenerateRandomNumber(0, countryCodes.Length);
 
+            choices[0] = cc.GetKeyFromValue(cc.countryCodesByName, currentQuestion);
+            choices[1] = cc.GetKeyFromValue(cc.countryCodesByName, countryCodes[randomNumber]);
+            randomNumber = GenerateRandomNumber(0, countryCodes.Length);
+            choices[2] = cc.GetKeyFromValue(cc.countryCodesByName, countryCodes[randomNumber]);
+
+            ArrayShuffler.Shuffle(choices);
+
+            int i = 0;
+            foreach (Button btn in btnChoices)
+            {
+                btn.Text = choices[i];
+                i++;
+            }
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
@@ -85,9 +115,12 @@ namespace SOAP_Mobile
         private void BtnSubmitOnClick(object sender, EventArgs eventArgs)
         {
             View view = (View)sender;
-            
 
-            if (cc.CheckAnswer(edit1.Text.ToUpper(), currentQuestion))
+            var obj = (Button)sender;
+
+
+            //  if (cc.CheckAnswer(edit1.Text.ToUpper(), currentQuestion))
+            if (cc.CheckAnswer(obj.Text.ToUpper(), currentQuestion))
             {
                 score++;
                 DisplayToast("Correct");
@@ -96,10 +129,10 @@ namespace SOAP_Mobile
             {
                 DisplayToast("Wrong");
             }
+
+
             text1.Text = "Score: " + score.ToString();
             GameRound();
-
-            //com.daehosting.webservices.TemperatureConversions tempC = new com.daehosting.webservices.TemperatureConversions();
 
         }
 
@@ -148,5 +181,5 @@ namespace SOAP_Mobile
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-	}
+    }
 }
